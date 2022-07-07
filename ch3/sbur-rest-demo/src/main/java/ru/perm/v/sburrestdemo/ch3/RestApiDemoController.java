@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,6 @@ public class RestApiDemoController {
     ResponseEntity<Coffee> postCoffee(@PathVariable String id, @RequestBody Coffee coffee) {
         boolean isNew = true;
         for (Coffee c : coffees) {
-//            System.out.println(c);
             if (c.getId().equals(coffee.getId())) {
                 c.setName(coffee.getName());
                 isNew = false;
@@ -62,6 +62,20 @@ public class RestApiDemoController {
         System.out.println("**************");
         System.out.println(coffees);
         return new ResponseEntity<>(coffee, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Coffee> putCoffee(@PathVariable("id") String id,
+        @RequestBody Coffee coffee) {
+        int coffeeIndex = -1;
+        for (Coffee c : coffees) {
+            if (c.getId().equals(id)) {
+                coffeeIndex = coffees.indexOf(coffee);
+                coffees.set(coffeeIndex, coffee);
+            }
+        }
+        return (coffeeIndex == -1) ? postCoffee(id, coffee)
+            : new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
