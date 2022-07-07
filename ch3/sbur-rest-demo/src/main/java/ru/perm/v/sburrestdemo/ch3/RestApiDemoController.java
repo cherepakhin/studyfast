@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/coffees")
 public class RestApiDemoController {
 
     ObjectMapper mapper = new ObjectMapper();
@@ -24,12 +26,12 @@ public class RestApiDemoController {
         coffees.add(new Coffee("Coffee2"));
     }
 
-    @GetMapping("/coffees")
+    @GetMapping("/")
     public List<Coffee> getCoffees() {
         return coffees;
     }
 
-    @GetMapping("/coffees/{id}")
+    @GetMapping("/{id}")
     public Optional<Coffee> getById(@PathVariable String id) {
         for (Coffee coffee : coffees) {
             if (coffee.getId().equals(id)) {
@@ -39,7 +41,7 @@ public class RestApiDemoController {
         return Optional.empty();
     }
 
-    @PostMapping("/coffees/{id}")
+    @PostMapping("/{id}")
     ResponseEntity<Coffee> postCoffee(@PathVariable String id, @RequestBody Coffee coffee) {
         boolean isNew = true;
         for (Coffee c : coffees) {
@@ -58,6 +60,6 @@ public class RestApiDemoController {
         }
         System.out.println("**************");
         System.out.println(coffees);
-        return new ResponseEntity<Coffee>(coffee, HttpStatus.OK);
+        return new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 }
