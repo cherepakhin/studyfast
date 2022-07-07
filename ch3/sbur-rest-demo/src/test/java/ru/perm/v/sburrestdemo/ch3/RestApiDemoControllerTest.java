@@ -30,7 +30,7 @@ class RestApiDemoControllerTest {
 
     @Test
     void getCoffees() throws Exception {
-        this.mockMvc.perform(get("/coffees")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/coffees/")).andDo(print()).andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(3)))
             .andExpect(jsonPath("$[0].name", is("Coffee0")));
     }
