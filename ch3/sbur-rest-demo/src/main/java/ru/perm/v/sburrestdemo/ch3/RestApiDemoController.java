@@ -43,8 +43,8 @@ public class RestApiDemoController {
         return Optional.empty();
     }
 
-    @PostMapping("/{id}")
-    ResponseEntity<Coffee> postCoffee(@PathVariable String id, @RequestBody Coffee coffee) {
+    @PostMapping("")
+    ResponseEntity<Coffee> postCoffee(@RequestBody Coffee coffee) {
         boolean isNew = true;
         for (Coffee c : coffees) {
             if (c.getId().equals(coffee.getId())) {
@@ -54,27 +54,25 @@ public class RestApiDemoController {
         }
         if (isNew) {
             System.out.println(coffee);
-            System.out.println("===============");
+            System.out.println("===============Добавляю в список");
             System.out.println(coffees);
-            System.out.println("---------------");
             coffees.add(coffee);
         }
-        System.out.println("**************");
+        System.out.println("===============Список после");
         System.out.println(coffees);
         return new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Coffee> putCoffee(@PathVariable("id") String id,
-        @RequestBody Coffee coffee) {
+    @PutMapping("/")
+    public ResponseEntity<Coffee> putCoffee(@RequestBody Coffee coffee) {
         int coffeeIndex = -1;
         for (Coffee c : coffees) {
-            if (c.getId().equals(id)) {
+            if (c.getId().equals(coffee.getId())) {
                 coffeeIndex = coffees.indexOf(coffee);
                 coffees.set(coffeeIndex, coffee);
             }
         }
-        return (coffeeIndex == -1) ? postCoffee(id, coffee)
+        return (coffeeIndex == -1) ? postCoffee(coffee)
             : new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 
