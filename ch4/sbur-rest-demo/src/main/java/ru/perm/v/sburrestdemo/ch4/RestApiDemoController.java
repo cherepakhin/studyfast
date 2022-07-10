@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,11 +22,10 @@ public class RestApiDemoController {
 
     ObjectMapper mapper = new ObjectMapper();
     private CoffeeRepository coffeeRepository;
-    private List<Coffee> coffees = new ArrayList<>();
 
-    public RestApiDemoController(CoffeeRepository repository) {
+    public RestApiDemoController(@Autowired CoffeeRepository repository) {
         this.coffeeRepository =repository;
-        coffees.addAll(List.of(
+        this.coffeeRepository.saveAll(List.of(
             new Coffee("Coffee0"),
             new Coffee("Coffee1"),
             new Coffee("Coffee2")
@@ -34,12 +34,12 @@ public class RestApiDemoController {
 
     @GetMapping("/")
     public List<Coffee> getCoffees() {
-        return coffees;
+        return coffeeRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Coffee> getById(@PathVariable String id) {
-        for (Coffee coffee : coffees) {
+        for (Coffee coffee : coffeeRepository.findAll()) {
             if (coffee.getId().equals(id)) {
                 return Optional.of(coffee);
             }
@@ -50,40 +50,26 @@ public class RestApiDemoController {
     @PostMapping("")
     ResponseEntity<Coffee> postCoffee(@RequestBody Coffee coffee) {
         boolean isNew = true;
-        for (Coffee c : coffees) {
+        for (Coffee c : coffeeRepository.findAll()) {
             if (c.getId().equals(coffee.getId())) {
                 c.setName(coffee.getName());
                 isNew = false;
             }
         }
         if (isNew) {
-            System.out.println(coffee);
-            System.out.println("===============Добавляю в список");
-            System.out.println(coffees);
-            coffees.add(coffee);
+//            System.out.println(coffee);
+//            System.out.println("===============Добавляю в список");
+//            System.out.println(coffees);
+            coffeeRepository.save(coffee);
         }
         System.out.println("===============Список после");
-        System.out.println(coffees);
+        System.out.println(coffeeRepository.findAll());
         return new ResponseEntity<>(coffee, HttpStatus.OK);
-    }
-
-    @PutMapping("/")
-    public ResponseEntity<Coffee> putCoffee(@RequestBody Coffee coffee) {
-        int coffeeIndex = -1;
-        for (Coffee c : coffees) {
-            if (c.getId().equals(coffee.getId())) {
-                coffeeIndex = coffees.indexOf(coffee);
-                System.out.println(coffeeIndex);
-                coffees.set(coffeeIndex, coffee);
-            }
-        }
-        return (coffeeIndex == -1) ? postCoffee(coffee)
-            : new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     void deleteCoffee(@PathVariable String id) {
-        coffees.removeIf(c -> c.getId().equals(id));
+        coffeeRepository.deleteById(id);
     }
 
 

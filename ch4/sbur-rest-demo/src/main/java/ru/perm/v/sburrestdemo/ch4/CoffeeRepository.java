@@ -1,7 +1,9 @@
 package ru.perm.v.sburrestdemo.ch4;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CoffeeRepository extends CrudRepository<Coffee, String> {
+@Repository
+public interface CoffeeRepository extends JpaRepository<Coffee, String> {
 
 }
