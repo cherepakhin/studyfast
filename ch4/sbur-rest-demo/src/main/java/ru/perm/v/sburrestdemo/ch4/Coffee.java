@@ -59,7 +59,10 @@ public class Coffee {
 
         Coffee coffee = (Coffee) o;
 
-        return id != null ? id.equals(coffee.id) : coffee.id == null;
+        if (!id.equals(coffee.id)) {
+            return false;
+        }
+        return name.equals(coffee.name);
     }
 
     @Override

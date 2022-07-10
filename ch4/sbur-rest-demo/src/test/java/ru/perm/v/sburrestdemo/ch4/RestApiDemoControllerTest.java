@@ -4,10 +4,12 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,7 @@ class RestApiDemoControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private CoffeeRepository coffeeRepository;
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void getCoffees() throws Exception {
@@ -56,5 +59,25 @@ class RestApiDemoControllerTest {
         this.mockMvc.perform(get("/coffees/" + coffees.get(0).getId())).andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.name", is("Coffee0")));
+    }
+
+    @Test
+    void postCoffee() throws Exception {
+        List<Coffee> coffees = List.of(
+            new Coffee("Coffee0"),
+            new Coffee("Coffee1"),
+            new Coffee("Coffee2")
+        );
+        Coffee coffeeNew = new Coffee("Coffee3");
+        System.out.println("------------------");
+        System.out.println(objectMapper.writeValueAsString(coffeeNew));
+        System.out.println("------------------");
+        when(coffeeRepository.findAll()).thenReturn(coffees);
+        this.mockMvc.perform(
+            post("/coffees/")
+                .contentType(MEDIA_TYPE_JSON)
+                .content(objectMapper.writeValueAsString(coffeeNew)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name", is("Coffee3")));
     }
 }

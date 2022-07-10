@@ -48,7 +48,7 @@ public class RestApiDemoController {
     }
 
     @PostMapping("")
-    ResponseEntity<Coffee> postCoffee(@RequestBody Coffee coffee) {
+    public Coffee postCoffee(@RequestBody Coffee coffee) {
         boolean isNew = true;
         for (Coffee c : coffeeRepository.findAll()) {
             if (c.getId().equals(coffee.getId())) {
@@ -61,7 +61,7 @@ public class RestApiDemoController {
         }
         System.out.println("===============Список после");
         System.out.println(coffeeRepository.findAll());
-        return new ResponseEntity<>(coffee, HttpStatus.OK);
+        return coffee;
     }
 
     @DeleteMapping("/{id}")
