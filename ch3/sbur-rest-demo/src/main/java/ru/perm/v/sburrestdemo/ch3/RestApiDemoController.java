@@ -23,9 +23,11 @@ public class RestApiDemoController {
     private List<Coffee> coffees = new ArrayList<>();
 
     public RestApiDemoController() {
-        coffees.add(new Coffee("Coffee0"));
-        coffees.add(new Coffee("Coffee1"));
-        coffees.add(new Coffee("Coffee2"));
+        coffees.addAll(List.of(
+            new Coffee("Coffee0"),
+            new Coffee("Coffee1"),
+            new Coffee("Coffee2")
+        ));
     }
 
     @GetMapping("/")
@@ -69,6 +71,7 @@ public class RestApiDemoController {
         for (Coffee c : coffees) {
             if (c.getId().equals(coffee.getId())) {
                 coffeeIndex = coffees.indexOf(coffee);
+                System.out.println(coffeeIndex);
                 coffees.set(coffeeIndex, coffee);
             }
         }
@@ -80,7 +83,6 @@ public class RestApiDemoController {
     void deleteCoffee(@PathVariable String id) {
         coffees.removeIf(c -> c.getId().equals(id));
     }
-
 
 
 }

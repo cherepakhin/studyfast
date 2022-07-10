@@ -35,4 +35,23 @@ public class Coffee {
             ", name='" + name + '\'' +
             '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Coffee)) {
+            return false;
+        }
+
+        Coffee coffee = (Coffee) o;
+
+        return id != null ? id.equals(coffee.id) : coffee.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
