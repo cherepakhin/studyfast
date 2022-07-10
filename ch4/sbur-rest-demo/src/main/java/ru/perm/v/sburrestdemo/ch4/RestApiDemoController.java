@@ -57,9 +57,6 @@ public class RestApiDemoController {
             }
         }
         if (isNew) {
-//            System.out.println(coffee);
-//            System.out.println("===============Добавляю в список");
-//            System.out.println(coffees);
             coffeeRepository.save(coffee);
         }
         System.out.println("===============Список после");

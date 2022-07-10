@@ -45,4 +45,16 @@ class RestApiDemoControllerTest {
             .andExpect(jsonPath("$", hasSize(3)))
             .andExpect(jsonPath("$[0].name", is("Coffee0")));
     }
+
+    @Test
+    void getById() throws Exception {
+        List<Coffee> coffees = List.of(
+            new Coffee("Coffee0"),
+            new Coffee("Coffee1"),
+            new Coffee("Coffee2")
+        );
+        when(coffeeRepository.findAll()).thenReturn(coffees);
+        this.mockMvc.perform(get("/coffees/"+coffees.get(0).getId())).andDo(print()).andExpect(status().isOk())
+            .andExpect(jsonPath("$.name", is("Coffee0")));
+    }
 }
