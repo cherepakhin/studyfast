@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -54,7 +53,8 @@ class RestApiDemoControllerTest {
             new Coffee("Coffee2")
         );
         when(coffeeRepository.findAll()).thenReturn(coffees);
-        this.mockMvc.perform(get("/coffees/"+coffees.get(0).getId())).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/coffees/" + coffees.get(0).getId())).andDo(print())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.name", is("Coffee0")));
     }
 }
