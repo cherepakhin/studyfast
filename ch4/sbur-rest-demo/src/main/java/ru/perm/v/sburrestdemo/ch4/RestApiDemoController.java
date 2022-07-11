@@ -1,17 +1,14 @@
 package ru.perm.v.sburrestdemo.ch4;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,17 +20,12 @@ public class RestApiDemoController {
     ObjectMapper mapper = new ObjectMapper();
     private CoffeeRepository coffeeRepository;
 
-    public RestApiDemoController(@Autowired CoffeeRepository repository) {
+    public RestApiDemoController(CoffeeRepository repository) {
         this.coffeeRepository =repository;
-        this.coffeeRepository.saveAll(List.of(
-            new Coffee("Coffee0"),
-            new Coffee("Coffee1"),
-            new Coffee("Coffee2")
-        ));
     }
 
     @GetMapping("/")
-    public List<Coffee> getCoffees() {
+    public Iterable<Coffee> getCoffees() {
         return coffeeRepository.findAll();
     }
 
@@ -57,6 +49,7 @@ public class RestApiDemoController {
             }
         }
         if (isNew) {
+            System.out.println("Сохранение");
             coffeeRepository.save(coffee);
         }
         System.out.println("===============Список после");
