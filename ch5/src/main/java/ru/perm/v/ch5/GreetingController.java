@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
-    @Value("${greeting-name: Mirage}") // greeting-name: Mirage работает, если не задано в application.properies
+    @Value("${greeting-name: Mirage}") // greeting-name: Mirage работает, если не задано в application.properties
     private String name;
 
     @GetMapping("/")
