@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetingController {
     @Value("${greeting-name: Mirage}") // greeting-name: Mirage работает, если не задано в application.properties
     private String name;
+    @Value("${greeting-coffee: Mirage is good}")
+    private String greetingCoffee;
 
     @GetMapping("/")
     public String getGreeting() {
         return name;
+    }
+
+    @GetMapping("/coffee")
+    public String getGreetingCoffee() {
+        return greetingCoffee;
     }
 }
