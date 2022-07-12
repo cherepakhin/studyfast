@@ -1,4 +1,4 @@
-package ru.perm.v.ch5;
+package ru.perm.v.studyfast;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,18 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
-    @Value("${greeting-name: Mirage}") // greeting-name: Mirage работает, если не задано в application.properties
-    private String name;
-    @Value("${greeting-coffee: Mirage is good}")
-    private String greetingCoffee;
+    private Greeting greeting;
+
+    public GreetingController(Greeting greeting) {
+        this.greeting = greeting;
+    }
 
     @GetMapping("/")
     public String getGreeting() {
-        return name;
+        return greeting.getName();
     }
 
     @GetMapping("/coffee")
     public String getGreetingCoffee() {
-        return greetingCoffee;
+        return greeting.getCoffee();
     }
 }

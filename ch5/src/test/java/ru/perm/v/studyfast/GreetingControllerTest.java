@@ -1,4 +1,4 @@
-package ru.perm.v.ch5;
+package ru.perm.v.studyfast;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
