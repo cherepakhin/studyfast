@@ -1,10 +1,6 @@
 package ru.perm.v.sburrestdemo.ch4;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/coffees")
 public class RestApiDemoController {
 
-    ObjectMapper mapper = new ObjectMapper();
     private CoffeeRepository coffeeRepository;
 
     public RestApiDemoController(CoffeeRepository repository) {
@@ -30,13 +25,14 @@ public class RestApiDemoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Coffee> getById(@PathVariable String id) {
-        for (Coffee coffee : coffeeRepository.findAll()) {
-            if (coffee.getId().equals(id)) {
-                return Optional.of(coffee);
-            }
-        }
-        return Optional.empty();
+    public Coffee getById(@PathVariable String id) {
+        return coffeeRepository.findById(id).orElse(new Coffee());
+//        for (Coffee coffee : coffeeRepository.findAll()) {
+//            if (coffee.getId().equals(id)) {
+//                return Optional.of(coffee);
+//            }
+//        }
+//        return Optional.empty();
     }
 
     @PostMapping("")
@@ -46,6 +42,7 @@ public class RestApiDemoController {
             if (c.getId().equals(coffee.getId())) {
                 c.setName(coffee.getName());
                 isNew = false;
+                coffeeRepository.save(c);
             }
         }
         if (isNew) {
