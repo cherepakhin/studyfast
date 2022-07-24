@@ -26,7 +26,9 @@ public class RestApiDemoController {
 
     @GetMapping("/{id}")
     public Coffee getById(@PathVariable String id) {
-        return coffeeRepository.findById(id).orElse(new Coffee());
+        Optional<Coffee> coffee = coffeeRepository.findById(id);
+        System.out.println(coffee.get());
+        return coffee.orElse(new Coffee());
 //        for (Coffee coffee : coffeeRepository.findAll()) {
 //            if (coffee.getId().equals(id)) {
 //                return Optional.of(coffee);
