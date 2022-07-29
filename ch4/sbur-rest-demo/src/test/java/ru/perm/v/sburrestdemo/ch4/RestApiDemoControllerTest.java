@@ -52,15 +52,11 @@ class RestApiDemoControllerTest {
 
     @Test
     void getById() throws Exception {
-        List<Coffee> coffees = List.of(
-            new Coffee("Coffee0"),
-            new Coffee("Coffee1"),
-            new Coffee("Coffee2")
-        );
-        when(coffeeRepository.findById(coffees.get(0).getId())).thenReturn(Optional.ofNullable(coffees.get(0)));
-        this.mockMvc.perform(get("/coffees/" + coffees.get(0).getId())).andDo(print())
-            .andExpect(status().isOk());
-//            .andExpect(jsonPath("$.name", is("Coffee0")));
+        Coffee coffee = new Coffee("Coffee0");
+        when(coffeeRepository.findById(coffee.getId())).thenReturn(Optional.of(coffee));
+        this.mockMvc.perform(get("/coffees/" + coffee.getId())).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name", is("Coffee0")));
     }
 
     @Test
