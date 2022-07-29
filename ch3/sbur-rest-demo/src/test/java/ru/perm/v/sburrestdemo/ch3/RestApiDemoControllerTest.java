@@ -22,10 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 class RestApiDemoControllerTest {
 
     private final static String COFFEES = "/coffees";
-    private static final MediaType MEDIA_TYPE_JSON = new MediaType(
-        MediaType.APPLICATION_JSON.getType(),
-        MediaType.APPLICATION_JSON.getSubtype(),
-        StandardCharsets.UTF_8);
+//    private static final MediaType MEDIA_TYPE_JSON = new MediaType(
+//        MediaType.APPLICATION_JSON.getType(),
+//        MediaType.APPLICATION_JSON.getSubtype(),
+//        StandardCharsets.UTF_8);
     @Autowired
     private MockMvc mockMvc;
 
