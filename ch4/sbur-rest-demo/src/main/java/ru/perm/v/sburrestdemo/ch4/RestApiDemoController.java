@@ -29,12 +29,6 @@ public class RestApiDemoController {
         Optional<Coffee> coffee = coffeeRepository.findById(id);
         System.out.println(coffee.get());
         return coffee.orElse(new Coffee());
-//        for (Coffee coffee : coffeeRepository.findAll()) {
-//            if (coffee.getId().equals(id)) {
-//                return Optional.of(coffee);
-//            }
-//        }
-//        return Optional.empty();
     }
 
     @PostMapping("")
