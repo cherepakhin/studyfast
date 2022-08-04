@@ -3,7 +3,8 @@ package ru.perm.v.studyfast;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "greeting")
+@ConfigurationProperties
+//        (prefix = "greeting")
 public class Greeting {
     @Value("${greeting-name: Mirage}")
     private String name;
