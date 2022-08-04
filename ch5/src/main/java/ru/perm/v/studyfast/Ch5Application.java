@@ -19,7 +19,7 @@ public class Ch5Application {
 	Droid createDroid() {
 		Droid droid = new Droid();
 		// Останется , если не переопределено в application.properties
-		droid.setName("droidName");
+		droid.setName("Name from Ch5Application");
 		return droid;
 	}
 }
