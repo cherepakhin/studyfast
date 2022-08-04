@@ -17,6 +17,9 @@ public class Ch5Application {
 	@Bean
 	@ConfigurationProperties(prefix = "droid")
 	Droid createDroid() {
-		return new Droid();
+		Droid droid = new Droid();
+		// Останется , если не переопределено в application.properties
+		droid.setName("droidName");
+		return droid;
 	}
 }
